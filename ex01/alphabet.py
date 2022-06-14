@@ -23,6 +23,7 @@ def taisyou():
     print(mozi)
     return kesson
 
+
 def kaitou(seikai):
     num = int(input("欠損文字はいくつか:"))
     print(kesun)

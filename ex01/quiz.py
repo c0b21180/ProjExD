@@ -16,17 +16,10 @@ def shutudai(n):
     print(mondai[n])
 
 def kaito(n,ans):
-    for i in range(len(kotae[n])):
-        if ans == kotae[n][i]:
-            print("正解")
-            break
+    if ans in kotae[n]:
+        print("正解")
     else:
         print("不正解")
-    
-
-
-
-
 
 if __name__ == "__main__":
     main()

@@ -21,6 +21,5 @@ def kaito(n,ans):
     else:
         print("不正解")
 
-
 if __name__ == "__main__":
     main()

@@ -12,8 +12,8 @@ def main():
         if a == 1:
             print("おめでとう")
             break
-        else:
-            print("もう一度")
+    else:
+        print("残念")
 def taisyou():
     temp = [chr(c+65) for c in range(26)]
     alpha = random.sample(temp,mozimax)
@@ -34,6 +34,7 @@ def kaitou(seikai):
         print(f"{i+1}つ目の欠損は？")
         ans = input()
         if ans in seikai:
+            seikai.remove(ans)
             print("正解")
         else:
             print("不正解")

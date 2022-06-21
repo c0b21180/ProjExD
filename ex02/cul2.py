@@ -40,8 +40,6 @@ class Calculator():
            sticky=tkinter.NSEW # 左右上下に引き伸ばす
        )
  
- 
- 
        # ACボタン作成
        self.create_button(text="AC", x=0, y=1, size=1, func=self.AC_click)
        # 数字ボタン作成
@@ -82,7 +80,7 @@ class Calculator():
            self.create_button(text=operator, x=3,y=i+1,size=1,func=self.operation_click)
            i += 1
  
- 
+
    def create_button(self, text, x, y, size, func):
        '''ボタンウィジェットの作成・配置・イベント設定'''
        button = tkinter.Button(
@@ -103,7 +101,6 @@ class Calculator():
        # イベント設定
        button.bind("<ButtonPress>", func)
  
- 
    def AC_click(self, event):
        '''ACボタンがクリックされたときの処理'''
        # ラベルを 0 にセット
@@ -112,7 +109,6 @@ class Calculator():
        self.item1 = None
        self.op_clicked = False
        self.operation = None
- 
  
    def pi_click(self, event):
        '''πボタンがクリックされたときの処理'''

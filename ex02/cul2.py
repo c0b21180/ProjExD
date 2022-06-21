@@ -60,83 +60,19 @@ class Calculator():
  
        # πボタン作成
        self.create_button(text="π", x=4, y=4, size=1, func=self.pi_click)
-       # 数字ボタン作成
-       i = 0
-       for number in numbers:
-           if number == "0":
-               # ボタン 0 だけボタン３つ分のサイズで作成(sizeを3から2にした)
-               self.create_button(text=number, x=i%3,y=i//3+2,size=2,func=self.num_click)
-               # 小数点ボタン作成
-               self.create_button(text=".", x=i%3+2,y=i//3+2, size=1, func=self.float_click)
-           else:
-               self.create_button(text=number, x=i%3,y=i//3+2,size=1,func=self.num_click)
-           i += 1
- 
  
       # +/-ボタン作成
        self.create_button(text="+/-", x=1, y=1, size=1, func=self.minus_click)
-      # 数字ボタン作成
-       i = 0
-       for number in numbers:
-           if number == "0":
-              # ボタン 0 だけボタン３つ分のサイズで作成(sizeを3から2にした)
-               self.create_button(text=number, x=i%3,y=i//3+2,size=2,func=self.num_click)
-              # 小数点ボタン作成
-               self.create_button(text=".", x=i%3+2,y=i//3+2, size=1, func=self.float_click)
-           else:
-               self.create_button(text=number, x=i%3,y=i//3+2,size=1,func=self.num_click)
-           i += 1
- 
- 
- 
- 
+
        # %ボタン作成
        self.create_button(text="%", x=2, y=1, size=1, func=self.pa_click)
-       # 数字ボタン作成
-       i = 0
-       for number in numbers:
-           if number == "0":
-               # ボタン 0 だけボタン３つ分のサイズで作成(sizeを3から2にした)
-               self.create_button(text=number, x=i%3,y=i//3+2,size=2,func=self.num_click)
-               # 小数点ボタン作成
-               self.create_button(text=".", x=i%3+2,y=i//3+2, size=1, func=self.float_click)
-           else:
-               self.create_button(text=number, x=i%3,y=i//3+2,size=1,func=self.num_click)
-           i += 1
- 
- 
+
        # 8ボタン作成
        self.create_button(text="8%", x=4, y=2, size=1, func=self.s8_click)
-       # 数字ボタン作成
-       i = 0
-       for number in numbers:
-           if number == "0":
-               # ボタン 0 だけボタン３つ分のサイズで作成(sizeを3から2にした)
-               self.create_button(text=number, x=i%3,y=i//3+2,size=2,func=self.num_click)
-               # 小数点ボタン作成
-               self.create_button(text=".", x=i%3+2,y=i//3+2, size=1, func=self.float_click)
-           else:
-               self.create_button(text=number, x=i%3,y=i//3+2,size=1,func=self.num_click)
-           i += 1
-          
- 
- 
+
        # 10ボタン作成
        self.create_button(text="10%", x=4, y=3, size=1, func=self.s10_click)
-       # 数字ボタン作成
-       i = 0
-       for number in numbers:
-           if number == "0":
-               # ボタン 0 だけボタン３つ分のサイズで作成(sizeを3から2にした)
-               self.create_button(text=number, x=i%3,y=i//3+2,size=2,func=self.num_click)
-               # 小数点ボタン作成
-               self.create_button(text=".", x=i%3+2,y=i//3+2, size=1, func=self.float_click)
-           else:
-               self.create_button(text=number, x=i%3,y=i//3+2,size=1,func=self.num_click)
-           i += 1
-                    
- 
- 
+
        # 演算子ボタン作成
        i = 0
        for operator in operators:

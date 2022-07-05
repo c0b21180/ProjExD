@@ -2,10 +2,12 @@ import random
 import pygame as pg
 import sys
 import time
-            
+import math
 
 
 def main():
+    
+
     clock = pg.time.Clock()
     pg.display.set_caption("逃げろ！")
     screen_sfc = pg.display.set_mode((1600,900))
@@ -37,8 +39,9 @@ def main():
 
     font = pg.font.Font(None,100)
     s = font.render("GameOver",True,(63,255,63))
-
+    start = time.time()
     while True:
+
 
         screen_sfc.blit(bgimg_sfc,bgimg_rct)
         for event in pg.event.get():
@@ -86,10 +89,15 @@ def main():
             screen_sfc.blit(s,[10,5])  
             return
 
+        end = end = time.time()
+        dif = end - start 
+        dif = math.floor(dif)
+        text = font.render(str(dif),True,(64,255,63))
+        screen_sfc.blit(text,[10,5])
 
         pg.display.update()
         clock.tick(10000)
-    
+
 
 
 

@@ -4,10 +4,7 @@ import sys
 import time
 import math
 
-
 def main():
-    
-
     clock = pg.time.Clock()
     pg.display.set_caption("逃げろ！")
     screen_sfc = pg.display.set_mode((1600,900))

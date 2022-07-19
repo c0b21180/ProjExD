@@ -1,10 +1,10 @@
+from cmath import rect
 import pygame as pg
 import sys
 import random
 import numpy as np
 max_bm = 0
 bg_x = 0
-maxspeed = 3
 t = 0
 #スクリーン用クラス
 class Screen:
@@ -16,109 +16,90 @@ class Screen:
         self.bg_rect = self.bg_sfc.get_rect()
 
     def blit(self,bg_x):
+        #背景を動かす
         self.sfc.blit(self.bg_sfc,[bg_x-1600,0])
         self.sfc.blit(self.bg_sfc,[bg_x,0])
 
 #こうかとん用クラス
 class Bird:
-    def __init__(self, img, size: float, xy: tuple):
+    def __init__(self, img, size: float, screen: Screen):
         self.sfc = pg.image.load(img)
         self.sfc = pg.transform.rotozoom(self.sfc, 0, size)
         self.rect = self.sfc.get_rect()
-        self.rect.center = xy
-        self.vey = 0
-        self.jump = False
+        self.rect.center = self.rect.width, (screen.rect.height - self.rect.height) // 2
+        self.gravity = 0
 
     def blit(self, screen: Screen):
         screen.sfc.blit(self.sfc, self.rect)
 
     def update(self, screen: Screen):
         key = pg.key.get_pressed()
-        tori_speed = 1
-        if key[pg.K_UP]:
-            self.rect.centery -= tori_speed
-        if key[pg.K_DOWN]:
-            self.rect.centery += tori_speed
-        if key[pg.K_LEFT]:
-            self.rect.centerx -= tori_speed
-        if key[pg.K_RIGHT]:
-            self.rect.centerx += tori_speed
-        if key[pg.K_SPACE] and self.jump == False:
-            self.jump = True
-            self.rect.centery-= 5
-        if self.jump == True:
-            self.rect.centery +=1
-        
-        if check_bound(self.rect, screen.rect) != (1, 1):
-            if key[pg.K_UP]:
-                self.rect.centery += tori_speed
-            if key[pg.K_DOWN]:
-                self.rect.centery -= tori_speed
-            if key[pg.K_LEFT]:
-                self.rect.centerx += tori_speed
-            if key[pg.K_RIGHT]:
-                self.rect.centerx -= tori_speed
+        if self.rect.y >= 750:
+            self.rect.y = 750
+            if key[pg.K_SPACE]:
+                self.gravity = -30
+        #重力の計算
+        self.gravity += 1
+        if self.gravity > 15:
+            self.gravity = 15
+        self.rect.y += self.gravity  
         self.blit(screen)
+
 
 
 #爆弾用クラス
 class Bomb:
-    def __init__(self, color: tuple, rad: int, screen: Screen):
-        self.sfc = pg.Surface((rad * 2 , rad * 2))
-        self.sfc.set_colorkey((0, 0, 0))
-        for i in range(4):
-            pg.draw.circle(self.sfc, (color[0] - i * color[0] // 4, color[1] - i * color[1] // 4, color[2] - i * color[2] // 4), (rad, rad), rad - i * (rad // 4 + 1))
+    def __init__(self, img, size: float, screen: Screen):
+        self.sfc = pg.image.load(img)
+        self.sfc = pg.transform.rotozoom(self.sfc, 0, size)
         self.rect = self.sfc.get_rect()
-        self.rect.centerx = 1600
-        self.rect.centery = random.randint(rad * 2, screen.rect.height - rad * 2)
-        self.vx = np.random.choice([-1, 1])
-
+        self.rect.x = screen.rect.width + self.rect.width
+        self.rect.y = screen.rect.height - self.rect.height
+        self.vx = -10
+        self.vy = 0
 
     def blit(self, screen: Screen):
         screen.sfc.blit(self.sfc, self.rect)
 
     def update(self, screen: Screen):
-        global maxspeed
-        global max_bm
-        max_bm = random.randint(1,5)
-        for i in range(max_bm):
-            self.rect.move_ip(-1,0)
-            maxspeed = 3
-            self.blit(screen)
+        self.rect.move_ip(self.vx,self.vy)
+        self.blit(screen)
+
 
 
 def main():
-    global maxspeed
     global bg_x
     global t
     #fpsのカウント開始
     clock = pg.time.Clock()
-    sc = Screen("負けるな！こうかとん", (1600, 900), "ex06/fig/pg_bg.jpg")
-    tori = Bird("ex06/fig/6.png", 2.0, (900, 400))
-    bomb = Bomb((255, 0, 0), 50, sc)
-
+    sc = Screen("飛べ！こうかとん", (1600, 900), "ex06/fig/pg_bg.jpg")
+    tori = Bird("ex06/fig/6.png", 2.0, sc)
+    #ボムをリストに格納
+    bomb = Bomb("ex06/fig/1.png",random.randint(3,6) , sc)
+    bomlis = [bomb]
     #描画
     while True:
         t += 1
         bg_x = (bg_x-0.6)%1600
         sc.blit(bg_x)
-
-
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 return
-
-        if t%2000 == 0:
-            bomb = Bomb((255, 0, 0), 50, sc)
         tori.update(sc)
-        bomb.update(sc)
+        #ボムをだいたい1秒に一個作成
+        if t%120 == 0:
+            bomlis.append(Bomb("ex06/fig/1.png",random.randint(3,6) , sc))
 
-        if tori.rect.colliderect(bomb.rect):
-            return
-        maxspeed += 0.001
+        for i , bom in enumerate(bomlis):
+            bom.update(sc)
+            #ボムが画面外に消えたら削除
+            if bom.rect.y > 1600:
+                bomlis.pop(i)
+            if tori.rect.colliderect(bom.rect):
+                return
 
         pg.display.update()
-        clock.tick(1000)
+        clock.tick(120)
 
 def check_bound(rect, sc_rect):
     w, h = 1, 1
